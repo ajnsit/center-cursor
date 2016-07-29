@@ -1,10 +1,9 @@
 {
   "name": "center-cursor",
   "main": "./lib/center-cursor",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Keeps your cursor centered vertically on screen. Similar to Emacs' centered-cursor-mode or Vim's scrolloff option.",
-  "keywords": [
-  ],
+  "keywords": [],
   "activationCommands": {
     "atom-workspace": "center-cursor:toggle"
   },
@@ -13,6 +12,5 @@
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
