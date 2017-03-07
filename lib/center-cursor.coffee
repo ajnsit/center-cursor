@@ -29,8 +29,7 @@ module.exports = CenterCursor =
 
     # Register plugin for all editors (present and future)
     @editorSubscriptions.add atom.workspace.observeTextEditors (editor) =>
-      @editorSubscriptions.add editor.observeCursors (cursor) =>
-        @editorSubscriptions.add cursor.onDidChangePosition @centerCursor
+      @editorSubscriptions.add editor.onDidChangeCursorPosition @centerCursor
 
   disable: ->
     @enabled = false
@@ -48,22 +47,9 @@ module.exports = CenterCursor =
     editor = cursor.editor
     view = atom.views.getView(editor)
 
-    firstRow = editor.getFirstVisibleScreenRow()
-    lastRow = editor.getLastVisibleScreenRow()
-    editorSize = lastRow - firstRow
-    midRow = firstRow + Math.round(editorSize / 2)
-
-    viewTop = view.getScrollTop()
-    viewBottom = view.getScrollBottom()
-    viewSize = viewBottom - viewTop
-    pxPerRow = viewSize / editorSize
-
-    currentRow = event.newScreenPosition.row
-    offset = currentRow - midRow
-    offsetPx = Math.round(offset * pxPerRow)
-
-    # Seems to do nothing
-    # cursor.clearAutoscroll()
+    newPos = event.newBufferPosition.row
+    halfScreen = Math.floor(editor.getRowsPerPage() / 2)
+    newScrollTop = editor.getLineHeightInPixels() * (newPos - halfScreen)
 
     # Make sure any previously scheduled timeouts are cleared
     if @timeout
@@ -72,4 +58,6 @@ module.exports = CenterCursor =
     # Scroll after a timeout
     # We could scroll synchronously but that doesn't work when you are typing
     # Because atom immediately overrides the scroll to perform its own scrolling
-    @timeout = setTimeout (() -> view.setScrollTop(viewTop + offsetPx)), 0
+    @timeout = setTimeout (() ->
+      view.setScrollTop newScrollTop
+    ), 0
