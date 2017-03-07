@@ -1,14 +1,13 @@
 {CompositeDisposable} = require 'atom'
 
 module.exports = CenterCursor =
-  centerCursorView: null
   modalPanel: null
   subscriptions: null
   editorSubscriptions: null
   timeout: null
   enabled: false
 
-  activate: (state) ->
+  activate: () ->
     # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
     @subscriptions = new CompositeDisposable
 
@@ -19,9 +18,6 @@ module.exports = CenterCursor =
     # Dispose all handlers
     @subscriptions.dispose()
     @editorSubscriptions.dispose()
-
-  serialize: ->
-    centerCursorViewState: @centerCursorView.serialize()
 
   enable: ->
     @enabled = true
