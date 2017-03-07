@@ -1,7 +1,7 @@
 {
   "name": "center-cursor",
   "main": "./lib/center-cursor",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Keeps your cursor centered vertically on screen. Similar to Emacs' centered-cursor-mode or Vim's scrolloff option.",
   "keywords": [],
   "activationCommands": {
